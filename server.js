@@ -27,7 +27,7 @@ app.post("/api/text", ({ body: { text } }, res) => {
       .status(400)
       .json({ msg: "Must be a truthy value or empty string!" });
   } else {
-    const alpRegex = /^[a-z\d\s]+$/i;
+    const alpRegex = /^[a-z\d\s.,]+$/gi;
     if (!alpRegex.test(text)) {
       return res
         .status(400)
