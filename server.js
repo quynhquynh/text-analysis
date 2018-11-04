@@ -13,7 +13,7 @@ app.use(cors());
 app.post("/api/text", ({ body: { text } }, res) => {
   // accept empty string
   if (text === "") {
-    res.json({
+    return res.json({
       textLength: {
         withSpaces: 0,
         withoutSpaces: 0
@@ -23,11 +23,13 @@ app.post("/api/text", ({ body: { text } }, res) => {
     });
   } else if (!text) {
     // string is either undefined, null, NaN or false
-    res.status(400).json({ msg: "Must be a truthy value or empty string!" });
+    return res
+      .status(400)
+      .json({ msg: "Must be a truthy value or empty string!" });
   } else {
     const alpRegex = /^[a-z\d\s]+$/i;
     if (!alpRegex.test(text)) {
-      res
+      return res
         .status(400)
         .json({ msg: "Must be English letters and numbers only!" });
     }
@@ -55,7 +57,7 @@ app.post("/api/text", ({ body: { text } }, res) => {
       }
     }
 
-    res.json({
+    return res.json({
       textLength: { withSpaces, withoutSpaces },
       wordCount,
       characterCount
