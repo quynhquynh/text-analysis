@@ -1,0 +1,18 @@
+{
+  "name": "db-challenge",
+  "version": "1.0.0",
+  "description": "Implement an API endpoint and deploy it",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "Quynh Le",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "~4.16.0",
+    "morgan": "^1.9.1"
+  }
+}
