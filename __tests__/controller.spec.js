@@ -9,28 +9,12 @@ describe("analyze text func", () => {
   };
   const next = jest.fn();
   describe("text is falsy value", () => {
-    it("should assign default value as empty text string and return all 0 and empty values when text is undefined", () => {
+    it("should return all 0 and empty values when text is undefined", () => {
       expect.assertions(2);
       const text = undefined;
       const req = { body: { text } };
       analyzeText(req, res, next);
       expect(res.json).toHaveBeenCalled();
-      expect(res.json).toBeCalledWith(
-        expect.objectContaining({
-          textLength: expect.objectContaining({
-            withSpaces: 0,
-            withoutSpaces: 0
-          }),
-          wordCount: 0,
-          characterCount: expect.arrayContaining([])
-        })
-      );
-    });
-    it("should return all 0 and empty values when empty string is passed", () => {
-      expect.assertions(1);
-      const text = "";
-      const req = { body: { text } };
-      analyzeText(req, res, next);
       expect(res.json).toBeCalledWith(
         expect.objectContaining({
           textLength: expect.objectContaining({

@@ -1,6 +1,6 @@
-module.exports = ({ body: { text = "" } }, res, next) => {
-  // accept empty string
-  if (text === "") {
+module.exports = ({ body: { text } }, res, next) => {
+  // falsy value
+  if (!text) {
     return res.json({
       textLength: {
         withSpaces: 0,
