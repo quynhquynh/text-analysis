@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 // cors setup
 app.use(cors());
 
-app.post("/api/text", ({ body: { text } }, res) => {
+app.post("/api/text", ({ body: { text = "" } }, res, next) => {
   // accept empty string
   if (text === "") {
     return res.json({
@@ -21,18 +21,17 @@ app.post("/api/text", ({ body: { text } }, res) => {
       wordCount: 0,
       characterCount: []
     });
-  } else if (!text) {
-    // string is either undefined, null, NaN or false
-    return res
-      .status(400)
-      .json({ msg: "Must be a truthy value or empty string!" });
   } else {
     const alpRegex = /^[a-z\d\s.,]+$/gi;
+
+    // text got incorrect format
     if (!alpRegex.test(text)) {
-      return res
-        .status(400)
-        .json({ msg: "Must be English letters and numbers only!" });
+      const e = new Error(
+        "Only accept English letters, numbers, spaces, commas and periods!"
+      );
+      return next(e);
     }
+
     const withSpaces = text.length;
 
     const textWithoutSpaces = text.replace(/\s/g, "");
@@ -63,6 +62,12 @@ app.post("/api/text", ({ body: { text } }, res) => {
       characterCount
     });
   }
+});
+
+app.use((err, req, res, next) => {
+  return res.status(400).json({
+    msg: err.message
+  });
 });
 
 const port = process.env.PORT || 5000;
